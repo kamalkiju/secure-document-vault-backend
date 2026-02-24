@@ -13,7 +13,7 @@ const required = [
 
 const optionalDefaults = {
   NODE_ENV: 'development',
-  PORT: 3000,
+  PORT: 5000,
   JWT_EXPIRES_IN: '7d',
   BCRYPT_SALT_ROUNDS: 12,
   RATE_LIMIT_LOGIN_MAX: 5,

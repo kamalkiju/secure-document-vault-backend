@@ -1,13 +1,15 @@
 /**
  * Server entry: load config (validates env), init app, listen.
+ * Port from config (process.env.PORT or default 5000).
  */
 
 const config = require('./config');
 const app = require('./app');
 const logger = require('./utils/logger');
 
-const server = app.listen(config.port, () => {
-  logger.info('Server started', { port: config.port, env: config.env });
+const PORT = config.port || 5000;
+const server = app.listen(PORT, () => {
+  logger.info('Server started', { port: PORT, env: config.env });
 });
 
 function shutdown() {
