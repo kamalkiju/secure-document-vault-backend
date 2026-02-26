@@ -4,6 +4,9 @@ module.exports = {
   testMatch: ['**/__tests__/**/*.test.js'],
   setupFilesAfterEnv: ['./jest.setup.js'],
   testPathIgnorePatterns: ['node_modules'],
+  coverageDirectory: 'coverage',
+  collectCoverage: true,
+  coverageReporters: ['text', 'lcov'],
   coverageThreshold: {
     global: {
       statements: 80,
