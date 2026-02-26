@@ -29,6 +29,16 @@ function createToken(user) {
   );
 }
 
+/**
+* Create a new user account with the provided email and plain-text password, storing a hashed password and returning the created user record and an authentication token.
+* @example
+* register('user@example.com', 's3cr3t')
+* { user: { id: '550e8400-e29b-41d4-a716-446655440000', email: 'user@example.com', role: 'member', mfa_enabled: 0, created_at: '2024-01-01T00:00:00Z' }, token: 'eyJhbGciOi...' }
+* @param {{string}} {{email}} - Email address for the new user.
+* @param {{string}} {{plainPassword}} - Plain-text password which will be hashed before storage.
+* @param {{string}} {{role}} - Role to assign to the user (optional, defaults to 'member').
+* @returns {{Promise<Object>}} Return a Promise that resolves to an object containing the created user (id, email, role, mfa_enabled, created_at) and a JWT token.
+**/
 function register(email, plainPassword, role = 'member') {
   const db = getDb();
   const id = uuidv4();
@@ -47,6 +57,16 @@ function register(email, plainPassword, role = 'member') {
 // Valid bcrypt hash for constant-time comparison when user not found (prevents timing attacks).
 const DUMMY_HASH = '$2b$10$KssILxWNR6k62B7yiX0GAe2Q7wwHlrzhF3LqtVvpyvHZf0MwvNfVu';
 
+/**
+* Authenticate a user by email and plaintext password and return a safe user object and token on success.
+* @example
+* login('user@example.com', 'password123')
+* { user: { id: 1, email: 'user@example.com', role: 'user', mfaEnabled: false }, token: 'jwt.token.here' }
+* @param {{string}} {{email}} - User email address (case-insensitive).
+* @param {{string}} {{plainPassword}} - Plaintext password to verify against the stored hash.
+* @param {{string|null}} {{ip}} - Optional IP address of the request for audit logging.
+* @returns {{Promise<Object|null}} Resolves to an object containing the safe user and token when authentication succeeds, or null when it fails.
+**/
 function login(email, plainPassword, ip = null) {
   const db = getDb();
   const user = db.prepare(
